@@ -1,0 +1,29 @@
+conversation_id,line_index,speaker,text,chirp_profile
+spaceport_greeter,0,Greeter,Welcome to ORBITAL SPACEPORT. Don’t block the cargo lanes.,robot
+spaceport_greeter,1,Greeter,"If you’re looking for upgrades, the shipwright is two doors down.",robot
+,,,,
+shipwright_intro,0,Shipwright,I can tune your ship to survive the ugly parts of space.,human
+shipwright_intro,1,Shipwright,CHOICE: Buy Asteroid Sensor (200) -> shipwright_buy_sensor | Buy Deep Space Engine (600) -> shipwright_buy_engine | Nevermind -> END,
+,,,,
+shipwright_buy_sensor,0,Shipwright,Asteroid Sensor installed. Your nav will now detect dense rock fields.,human
+shipwright_buy_sensor,1,Shipwright,Come back when you’ve got the funds for something spicier.,human
+,,,,
+shipwright_buy_engine,0,Shipwright,Deep Space Engine installed. You can cross the long dark gaps now.,human
+,,,,
+heal_center_intro,0,Medic,Sit. Breathe. I’ll patch up your team and your nerves.,human
+heal_center_intro,1,Medic,CHOICE: Heal everyone -> heal_center_done | Leave -> END,
+heal_center_done,0,Medic,All set. Try not to get vaporized out there.,human
+,,,,
+romance_p3a_intro,0,Ari,Oh—hi. You’re not from around here.,alien
+romance_p3a_intro,1,Ari,The docks make everyone look lonely. Even when they’re not.,alien
+romance_p3a_intro,2,Ari,CHOICE: Flirt -> romance_p3a_flirt | Be polite -> romance_p3a_polite | Leave -> END,
+romance_p3a_flirt,0,Ari,Bold. I respect that. Talk again when the station lights dim.,alien
+romance_p3a_polite,0,Ari,Polite is rare. Don’t lose that.,alien
+,,,,
+gate_blocked,0,NavConsole,WARNING: Your ship cannot safely enter this region.,robot
+gate_blocked,1,NavConsole,Required upgrade missing.,robot
+
+
+
+conversation_id,line_index,speaker,text,chirp_profile
+npc_default,0,SUSYANNE,"Hi! I fucking hate you!",default

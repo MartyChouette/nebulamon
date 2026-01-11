@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c27af75cab238040aad7c8faba78b36, type: 3}
+  m_Name: EnemyDefinition_SpacePirate
+  m_EditorClassIdentifier: Assembly-CSharp::SpaceGame.EnemyDefinition
+  enemyId: space_pirate
+  displayName: Space_Pirate
+  battlePrefab: {fileID: 4047734100068011248, guid: f221a7f4907ffc942aef14ec48236f0d, type: 3}
+  threatLevel: 2
+  enemyPilotSprite: {fileID: 21300000, guid: 5901abc8372522643a191d3445201926, type: 3}
+  enemyShipSprite: {fileID: 21300000, guid: 9ba14645c5b76fb4d82da4886367cf9f, type: 3}
+  party:
+  - {fileID: 11400000, guid: 92f70b2f03ed530408c54519ea2c2826, type: 2}
