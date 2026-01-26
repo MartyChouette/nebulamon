@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: New Dialogue Database CSV
+  m_Name: New Dialogue Database CSV 1
   m_EditorClassIdentifier: Assembly-CSharp:Nebula:DialogueDatabaseCSV
   csvFile: {fileID: 4900000, guid: 44a32e7b4f65c964e97c37dc2c4fb3e4, type: 3}

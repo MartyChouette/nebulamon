@@ -44,7 +44,7 @@ namespace Nebula
         // ✅ Prevent “Interact (X) also Submit (X)” from instantly skipping/closing
         private float _ignoreSubmitUntilUnscaled = 0f;
         private int _openedFrame = -999;
-
+    
         private void Awake()
         {
             // Singleton
@@ -55,10 +55,11 @@ namespace Nebula
                 return;
             }
             Instance = this;
-
+            DontDestroyOnLoad(gameObject);
             // Validate UI
             if (ui == null)
             {
+                ui = FindFirstObjectByType<DialogueUI>(FindObjectsInactive.Include);
                 Debug.LogError("[DialogueManager] UI is NOT assigned in inspector.", this);
             }
             else

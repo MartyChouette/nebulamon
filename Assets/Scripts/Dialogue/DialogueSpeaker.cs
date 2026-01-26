@@ -4,6 +4,7 @@ namespace Nebula
 {
     public class DialogueSpeaker : MonoBehaviour, IInteractable
     {
+
         [Header("Dialogue")]
         public string conversationId = "npc_default";
         public string prompt = "Talk";
@@ -14,10 +15,11 @@ namespace Nebula
 
         public void Interact(GameObject interactor)
         {
-            Debug.Log($"[DialogueSpeaker] Interact() on '{name}' convoId='{conversationId}'");
+   
 
             if (dialogueManager == null)
             {
+                dialogueManager = DialogueManager.Instance;
                 dialogueManager = FindFirstObjectByType<DialogueManager>();
                 if (dialogueManager == null)
                 {
