@@ -1,0 +1,81 @@
+# ============================================
+# Nebulamon Story Script: Pirate Encounter
+# ============================================
+# This is an example story script showing all features.
+# Lines starting with # are comments.
+#
+# COMMANDS:
+#   [show character: Name]    - Show a character card
+#   [show monster: Name]      - Show a monster card
+#   [show ship: Name]         - Show a ship card
+#   [hide character]          - Hide the character card
+#   [hide monster]            - Hide the monster card
+#   [hide ship]               - Hide the ship card
+#   [hide all]                - Hide all cards
+#   [fade in: 1.5]            - Fade in over 1.5 seconds
+#   [fade out: 1]             - Fade out over 1 second
+#   [flash: 0.2]              - Screen flash for 0.2 seconds
+#   [shake: 0.3]              - Screen shake for 0.3 seconds
+#   [wait: 2]                 - Wait for 2 seconds
+#   [wait for input]          - Wait for player to press a button
+#   [battle: EnemyName]       - Start a battle with EnemyName
+#   [end]                     - End the script
+#
+# DIALOGUE:
+#   Speaker: "Text to say"    - Character speaks
+#   : "Text"                  - Narrator (no speaker name)
+#
+# TEXT EFFECTS (in dialogue):
+#   <shake>shaky</shake>      - Vibrating text
+#   <wave>wavy</wave>         - Sine wave text
+#   <rainbow>color</rainbow>  - Rainbow cycling colors
+#   <pulse>pulsing</pulse>    - Scale pulsing
+#   <slow>slower</slow>       - Slower typewriter
+#   <fast>faster</fast>       - Faster typewriter
+#   <color=#FF0000>red</color>- Colored text (standard TMP)
+# ============================================
+
+# Scene: Player encounters a space pirate
+
+[fade in: 1.5]
+[show ship: PlayerShip]
+
+: "You drift through the asteroid field, sensors quiet..."
+
+[wait: 1]
+[shake: 0.2]
+
+: "<shake>Warning!</shake> Unknown vessel approaching!"
+
+[hide ship]
+[show character: Pirate]
+
+Pirate: "Well, well, well... what do we have here?"
+
+Pirate: "A little <wave>lost lamb</wave> wandering into MY territory!"
+
+[show character: Player]
+
+Player: "I'm just passing through. I don't want any trouble."
+
+[hide character]
+[show character: Pirate]
+
+Pirate: "<shake>TOO BAD!</shake> Trouble found YOU!"
+
+[flash: 0.15]
+[shake: 0.3]
+
+Pirate: "Hand over your cargo, or face my <rainbow>BEAST!</rainbow>"
+
+[hide character]
+[show monster: SpaceBeast]
+
+Pirate: "Go, <color=#FF4444>DESTROY THEM!</color>"
+
+[wait: 0.5]
+
+: "The pirate's monster lunges toward you!"
+
+# Start the battle
+[battle: SpacePirate]

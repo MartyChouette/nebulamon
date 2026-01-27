@@ -4,8 +4,13 @@ using UnityEngine;
 namespace Nebula
 {
     [CreateAssetMenu(menuName = "Nebula/Battle/Monster Definition", fileName = "MonsterDefinition")]
-    public class MonsterDefinition : ScriptableObject
+    public class MonsterDefinition : ScriptableObject, ICardData
     {
+        // ICardData implementation
+        public string DisplayName => displayName;
+        public Sprite CardSprite => battleSprite;
+        public Sprite BackgroundSprite => null; // Monsters use default battle background
+
         [Header("Identity")]
         public string displayName = "Nebula Beast";
         public ElementType element = ElementType.Solar;
