@@ -29,6 +29,10 @@ namespace Nebula
         [Header("Default Chirp Profiles")]
         [SerializeField] private List<NPCChirpProfile> profiles = new List<NPCChirpProfile>();
 
+        [Header("Card Integration")]
+        [Tooltip("If true, shows the speaker's character card when dialogue starts (if CharacterDefinition is assigned)")]
+        [SerializeField] private bool showCharacterCardOnDialogue = true;
+
         private readonly Dictionary<string, NPCChirpProfile> _profileByName = new Dictionary<string, NPCChirpProfile>();
 
         private List<DialogueLine> _lines;
@@ -191,6 +195,15 @@ namespace Nebula
             ui.SetVisible(true);
             ui.ClearChoices();
 
+            // Show character card if speaker has one and setting is enabled
+            if (showCharacterCardOnDialogue && speaker != null && speaker.characterDefinition != null)
+            {
+                if (CardDisplayManager.Instance != null)
+                {
+                    CardDisplayManager.Instance.ShowCharacterForDialogue(speaker.characterDefinition);
+                }
+            }
+
             // Kill any previous typing
             if (_typing != null) StopCoroutine(_typing);
             _typing = null;
@@ -307,6 +320,12 @@ namespace Nebula
             {
                 ui.ClearChoices();
                 ui.SetVisible(false);
+            }
+
+            // Notify card system that dialogue has ended
+            if (CardDisplayManager.Instance != null)
+            {
+                CardDisplayManager.Instance.OnDialogueEnded();
             }
         }
 

@@ -10,6 +10,10 @@ namespace Nebula
         public string prompt = "Talk";
         public NPCChirpProfile defaultChirpProfile;
 
+        [Header("Card Display")]
+        [Tooltip("Optional character definition for card display during dialogue")]
+        public CharacterDefinition characterDefinition;
+
         [Header("References")]
         public DialogueManager dialogueManager;
 
