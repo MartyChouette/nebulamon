@@ -51,6 +51,9 @@ namespace Nebula
             DontDestroyOnLoad(gameObject);
 
             ValidateReferences();
+
+            // Ensure all cards start hidden
+            HideAll();
         }
 
         private void ValidateReferences()

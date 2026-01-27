@@ -71,6 +71,8 @@ UI elements (portrait, name, stats, background)
 | Script | Attaches To | Responsibility | Public API |
 |--------|-------------|----------------|------------|
 | `BattleController.cs` | Battle scene manager | Orchestrates turn-based combat | Coroutine-based battle loop |
+| `BattleStoryDirector.cs` | Battle scene manager | Simple coroutine-based story sequencer | `ShowCharacter()`, `Say()`, `Wait()`, etc. |
+| `ExampleBattleSequences.cs` | Battle scene | Example story sequences to copy/modify | `PlayPirateIntro()`, `PlayBossIntro()`, etc. |
 | `BattleUI.cs` | Battle canvas | Battle UI bindings (moves, HP, resources) | `ShowMoves4()`, `SetPlayerInputEnabled()` |
 | `BattleMoveDetailPanel.cs` | Move detail panel | Shows move info on hover/focus | `Show(MonsterInstance, MoveDefinition)`, `Hide()` |
 | `MonsterInstance.cs` | N/A (runtime class) | Runtime monster state (HP, status, pool) | `TryApplyStatus()`, `CanActThisTurn()` |
@@ -161,6 +163,99 @@ CardDisplayManager.Instance.HideShip();
 // Hide all cards
 CardDisplayManager.Instance.HideAll();
 ```
+
+---
+
+## Battle Story Scripting
+
+The `BattleStoryDirector` provides simple, readable commands for scripting battle story sequences.
+
+### Basic Usage
+
+```csharp
+// In any MonoBehaviour with access to BattleStoryDirector
+IEnumerator PlayMySequence()
+{
+    var story = BattleStoryDirector.Instance;
+
+    // Show cards
+    yield return story.ShowCharacter(captainCharacter, waitForCard: true);
+    yield return story.ShowMonster(enemyMonster);
+    yield return story.ShowShip(playerShip);
+
+    // Dialogue with typewriter effect
+    yield return story.Say("Captain", "We've got company!");
+    yield return story.Say("Enemy", "Prepare to be boarded!");
+
+    // Timing
+    yield return story.Wait(0.5f);
+    yield return story.WaitForInput();
+
+    // Hide cards
+    yield return story.HideCharacter();
+    yield return story.HideAllCards();
+
+    // Clear text
+    yield return story.ClearText();
+}
+```
+
+### Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `ShowCharacter(def, wait)` | Show character card |
+| `ShowMonster(def/instance, wait)` | Show monster card |
+| `ShowShip(def, wait)` | Show ship card |
+| `HideCharacter()` | Hide character card |
+| `HideMonster()` | Hide monster card |
+| `HideShip()` | Hide ship card |
+| `HideAllCards()` | Hide all cards |
+| `Say(speaker, text, chirp)` | Typewriter dialogue |
+| `SayInstant(speaker, text)` | Instant text |
+| `ClearText()` | Clear and hide text |
+| `Wait(seconds)` | Pause for duration |
+| `WaitForInput()` | Wait for player input |
+| `Do(action)` | Run custom action |
+
+### Example: Battle Intro
+
+```csharp
+public IEnumerator PlayPirateIntro(CharacterDefinition pirate, MonsterDefinition pirateMonster)
+{
+    var story = BattleStoryDirector.Instance;
+
+    // Player ship flying
+    yield return story.ShowShip(playerShip, waitForCard: true);
+    yield return story.Say("", "You're cruising through the asteroid field...");
+
+    // Enemy appears
+    yield return story.HideShip();
+    yield return story.ShowCharacter(pirate, waitForCard: true);
+    yield return story.Say(pirate.displayName, "Halt! This sector belongs to me!");
+
+    // Player responds
+    yield return story.HideCharacter();
+    yield return story.ShowCharacter(playerCharacter, waitForCard: true);
+    yield return story.Say(playerCharacter.displayName, "I don't think so!");
+
+    // Show enemy monster
+    yield return story.HideCharacter();
+    yield return story.ShowMonster(pirateMonster, waitForCard: true);
+    yield return story.Say(pirate.displayName, $"Go, {pirateMonster.displayName}!");
+
+    yield return story.ClearText();
+    // Battle begins with monster card still visible
+}
+```
+
+### Scene Setup for BattleStoryDirector
+
+1. Add `BattleStoryDirector` component to a GameObject in BattleScreen scene
+2. Assign:
+   - `Story Text` - TMP_Text for dialogue
+   - `Story Text Panel` - Root panel to show/hide
+   - (Optional) `Chirp Source` - AudioSource for voice chirps
 
 ---
 
