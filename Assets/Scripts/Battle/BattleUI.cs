@@ -83,19 +83,12 @@ namespace Nebula
             if (drawButton) drawButton.interactable = enabled && drawButton.gameObject.activeSelf;
             if (runButton) runButton.interactable = enabled;
 
-            // If you have move buttons, also disable them:
-            if (move1Button) move1Button.interactable = enabled && move1Button.interactable;
-            if (move2Button) move2Button.interactable = enabled && move2Button.interactable;
-            if (move3Button) move3Button.interactable = enabled && move3Button.interactable;
-            if (move4Button) move4Button.interactable = enabled && move4Button.interactable;
-            if (backButton) backButton.interactable = enabled;
-
-            // Moves buttons: if a move is unaffordable, it stays disabled even when enabled
+            // Move + back buttons: refresh based on affordability and input state
             RefreshMoveButtonInteractableStates();
 
             if (!enabled)
             {
-                // Don’t show the move detail panel when player can't act
+                // Donï¿½t show the move detail panel when player can't act
                 if (moveDetailPanel) moveDetailPanel.Hide();
             }
         }
@@ -131,7 +124,7 @@ namespace Nebula
             if (movesMenu) movesMenu.SetActive(false);
             if (rootMenu) rootMenu.SetActive(true);
             if (moveDetailPanel) moveDetailPanel.Hide();
-            // keep current input state (don’t auto-enable)
+            // keep current input state (donï¿½t auto-enable)
             SetPlayerInputEnabled(_inputEnabled);
         }
 
@@ -139,7 +132,7 @@ namespace Nebula
         {
             if (rootMenu) rootMenu.SetActive(false);
             if (movesMenu) movesMenu.SetActive(true);
-            // keep current input state (don’t auto-enable)
+            // keep current input state (donï¿½t auto-enable)
             SetPlayerInputEnabled(_inputEnabled);
         }
 
@@ -236,7 +229,7 @@ namespace Nebula
 
             if (m == null)
             {
-                if (label) label.text = "—";
+                if (label) label.text = "ï¿½";
                 b.interactable = false;
                 BindHighlight(b, null);
                 return;

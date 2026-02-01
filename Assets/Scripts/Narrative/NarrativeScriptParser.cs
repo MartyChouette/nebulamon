@@ -118,6 +118,13 @@ namespace Nebula
                 Debug.LogWarning($"[NarrativeParser] Unknown line format at line {i + 1}: {trimmed}");
             }
 
+            // Warn if script ended mid-multiline dialogue
+            if (inMultilineDialogue)
+            {
+                Debug.LogWarning($"[NarrativeParser] Script ended with unclosed multiline dialogue (speaker: {multilineSpeaker}). Did you forget a closing quote?");
+                commands.Add(CreateDialogueCommand(multilineSpeaker, multilineText));
+            }
+
             return commands;
         }
 

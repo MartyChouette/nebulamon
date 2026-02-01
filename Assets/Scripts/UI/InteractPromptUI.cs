@@ -22,6 +22,7 @@ namespace Nebula
             if (root != null) root.SetActive(true);
             if (label != null) label.text = text;
 
+            if (_cam == null) _cam = Camera.main;
             if (_cam != null && target != null)
             {
                 Vector3 screen = _cam.WorldToScreenPoint(target.position + worldOffset);
