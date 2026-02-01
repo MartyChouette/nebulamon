@@ -369,6 +369,9 @@ namespace Nebula
             dialogueText.text = cleanText;
             dialogueText.maxVisibleCharacters = 0;
 
+            // Parse speed modifiers from the original text
+            var speedZones = ParseSpeedZones(originalText);
+
             float charsPerSec = defaultCharsPerSecond;
             int chirpCounter = 0;
 
@@ -400,9 +403,9 @@ namespace Nebula
                     }
                 }
 
-                // TODO: Check for <slow>, <fast>, <pause> tags and adjust timing
-
-                yield return new WaitForSecondsRealtime(1f / charsPerSec);
+                // Apply speed modifier for current character position
+                float multiplier = GetSpeedMultiplier(speedZones, i);
+                yield return new WaitForSecondsRealtime(1f / (charsPerSec * multiplier));
             }
         }
 
@@ -523,6 +526,71 @@ namespace Nebula
 
             // Small delay after input
             yield return new WaitForSecondsRealtime(0.05f);
+        }
+
+        private struct SpeedZone
+        {
+            public int startIndex;
+            public int endIndex;
+            public float multiplier;
+        }
+
+        private List<SpeedZone> ParseSpeedZones(string originalText)
+        {
+            var zones = new List<SpeedZone>();
+            if (string.IsNullOrEmpty(originalText)) return zones;
+
+            // Track clean-text index as we walk the original text
+            int cleanIndex = 0;
+            int i = 0;
+
+            while (i < originalText.Length)
+            {
+                if (originalText[i] == '<')
+                {
+                    int tagEnd = originalText.IndexOf('>', i);
+                    if (tagEnd == -1) { cleanIndex++; i++; continue; }
+
+                    string tag = originalText.Substring(i, tagEnd - i + 1);
+                    string tagLower = tag.ToLowerInvariant();
+
+                    if (tagLower == "<slow>" || tagLower == "<fast>")
+                    {
+                        float mult = tagLower == "<slow>" ? slowMultiplier : fastMultiplier;
+                        string closeTag = tagLower == "<slow>" ? "</slow>" : "</fast>";
+                        int closeIdx = originalText.IndexOf(closeTag, tagEnd + 1, System.StringComparison.OrdinalIgnoreCase);
+                        if (closeIdx != -1)
+                        {
+                            int startClean = cleanIndex;
+                            string inner = originalText.Substring(tagEnd + 1, closeIdx - tagEnd - 1);
+                            int innerCleanLen = NarrativeTextHelper.StripNarrativeTags(inner).Length;
+                            zones.Add(new SpeedZone { startIndex = startClean, endIndex = startClean + innerCleanLen - 1, multiplier = mult });
+                            cleanIndex += innerCleanLen;
+                            i = closeIdx + closeTag.Length;
+                            continue;
+                        }
+                    }
+
+                    // Skip other tags (they don't contribute to clean text length)
+                    i = tagEnd + 1;
+                    continue;
+                }
+
+                cleanIndex++;
+                i++;
+            }
+
+            return zones;
+        }
+
+        private static float GetSpeedMultiplier(List<SpeedZone> zones, int charIndex)
+        {
+            for (int i = 0; i < zones.Count; i++)
+            {
+                if (charIndex >= zones[i].startIndex && charIndex <= zones[i].endIndex)
+                    return zones[i].multiplier;
+            }
+            return 1f;
         }
 
         #endregion

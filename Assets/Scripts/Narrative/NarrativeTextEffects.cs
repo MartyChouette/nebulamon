@@ -232,7 +232,9 @@ namespace Nebula
             var effectsByIndex = new Dictionary<int, EffectType>();
             foreach (var ce in _characterEffects)
             {
-                effectsByIndex[ce.index] = ce.effect;
+                // Guard against stale indices from a previous text
+                if (ce.index < textInfo.characterCount)
+                    effectsByIndex[ce.index] = ce.effect;
             }
 
             for (int i = 0; i < textInfo.characterCount; i++)

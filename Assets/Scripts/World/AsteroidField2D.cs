@@ -82,6 +82,7 @@ namespace Nebula
                         continue;
 
                     GameObject prefab = asteroidPrefabs[Random.Range(0, asteroidPrefabs.Length)];
+                    if (prefab == null) continue;
                     GameObject a = Instantiate(prefab, p, Quaternion.Euler(0, 0, Random.Range(0f, 360f)), transform);
 
                     // Optional drift/spin
