@@ -17,6 +17,7 @@ namespace Nebula
         [SerializeField] private InteractPromptUI promptUI;
 
         private IInteractable _current;
+        private readonly Collider2D[] _hitBuffer = new Collider2D[16];
 
         private void OnEnable()
         {
@@ -46,30 +47,19 @@ namespace Nebula
 
         private void FindBestInteractable()
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, interactableLayer);
+            int hitCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius, _hitBuffer, interactableLayer);
 
             IInteractable best = null;
             float bestDist = float.MaxValue;
 
-            for (int i = 0; i < hits.Length; i++)
+            for (int i = 0; i < hitCount; i++)
             {
-                if (hits[i] == null) continue;
+                if (_hitBuffer[i] == null) continue;
 
-                ConsiderBehaviours(hits[i].GetComponents<MonoBehaviour>(), ref best, ref bestDist);
-                ConsiderBehaviours(hits[i].GetComponentsInParent<MonoBehaviour>(), ref best, ref bestDist);
-            }
-
-            _current = best;
-        }
-
-        private void ConsiderBehaviours(MonoBehaviour[] mbs, ref IInteractable best, ref float bestDist)
-        {
-            if (mbs == null) return;
-
-            for (int i = 0; i < mbs.Length; i++)
-            {
-                if (mbs[i] == null) continue;
-                if (mbs[i] is not IInteractable interactable) continue;
+                IInteractable interactable = _hitBuffer[i].GetComponent<IInteractable>();
+                if (interactable == null)
+                    interactable = _hitBuffer[i].GetComponentInParent<IInteractable>();
+                if (interactable == null) continue;
 
                 Transform t = interactable.GetTransform();
                 if (t == null) continue;
@@ -81,6 +71,8 @@ namespace Nebula
                     best = interactable;
                 }
             }
+
+            _current = best;
         }
 
         private void OnDrawGizmosSelected()

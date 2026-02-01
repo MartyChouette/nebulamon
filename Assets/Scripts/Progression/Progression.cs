@@ -17,11 +17,27 @@ namespace Nebula
 
         public static event Action OnChanged;
 
+        private static bool _dirty;
+
         private static string SavePath => Path.Combine(Application.persistentDataPath, FileName);
+        private static string TempPath => SavePath + ".tmp";
 
         public static void Load()
         {
             if (IsLoaded) return;
+
+            // Recover from interrupted save: if temp exists but main doesn't, rename it
+            if (File.Exists(TempPath) && !File.Exists(SavePath))
+            {
+                try { File.Move(TempPath, SavePath); }
+                catch (Exception e) { Debug.LogWarning($"Progression: temp recovery failed: {e.Message}"); }
+            }
+            // Clean up leftover temp file
+            else if (File.Exists(TempPath))
+            {
+                try { File.Delete(TempPath); }
+                catch { /* ignored */ }
+            }
 
             if (!File.Exists(SavePath))
             {
@@ -61,12 +77,21 @@ namespace Nebula
             try
             {
                 string json = JsonUtility.ToJson(Data, prettyPrint: true);
-                File.WriteAllText(SavePath, json);
+                File.WriteAllText(TempPath, json);
+                if (File.Exists(SavePath)) File.Delete(SavePath);
+                File.Move(TempPath, SavePath);
             }
             catch (Exception e)
             {
                 Debug.LogError($"Progression.Save failed: {e}");
             }
+
+            _dirty = false;
+        }
+
+        public static void SaveIfDirty()
+        {
+            if (_dirty) Save();
         }
 
         public static void HardResetSave()
@@ -90,7 +115,7 @@ namespace Nebula
 
         private static void Changed()
         {
-            Save();
+            _dirty = true;
             OnChanged?.Invoke();
         }
 
@@ -355,7 +380,7 @@ namespace Nebula
             return outList;
         }
 
-        // Optional: return a “primary romance” for planets with one, or the first option for planets with two.
+        // Optional: return a ï¿½primary romanceï¿½ for planets with one, or the first option for planets with two.
         public static bool TryGetPrimaryRomanceForPlanet(PlanetId planet, out RomanceCandidateId candidate)
         {
             var list = GetRomancesForPlanet(planet);
@@ -434,7 +459,7 @@ namespace Nebula
         }
 
         /// <summary>
-        /// Optional: set the romance currently “active” (for UI, quests, etc.)
+        /// Optional: set the romance currently ï¿½activeï¿½ (for UI, quests, etc.)
         /// </summary>
         public static void SetActiveRomance(RomanceCandidateId candidate)
         {

@@ -325,14 +325,7 @@ namespace Nebula
             ui?.SetTop($"{atk.def.displayName} used {move.moveName}!");
             yield return new WaitForSeconds(0.35f);
 
-            float hitChance = BattleMath.FinalHitChance(atk.def, def.def, move.accuracy);
-            if (Random.value > hitChance)
-            {
-                ui?.SetTop("It missed!");
-                yield return new WaitForSeconds(0.45f);
-                yield break;
-            }
-
+            // Heals and pure-status moves always succeed -- skip accuracy roll
             if (move.kind == MoveKind.Heal || (move.category == MoveCategory.Support && move.healAmount > 0))
             {
                 atk.hp = Mathf.Min(atk.def.maxHP, atk.hp + Mathf.Max(0, move.healAmount));
@@ -357,6 +350,15 @@ namespace Nebula
             {
                 yield return TryApplyMoveStatus(atk, def, move);
                 turnHud?.Refresh(_player.Active, _enemy.Active);
+                yield break;
+            }
+
+            // Accuracy roll applies only to damage moves
+            float hitChance = BattleMath.FinalHitChance(atk.def, def.def, move.accuracy);
+            if (Random.value > hitChance)
+            {
+                ui?.SetTop("It missed!");
+                yield return new WaitForSeconds(0.45f);
                 yield break;
             }
 

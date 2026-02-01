@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 
@@ -102,6 +103,31 @@ namespace Nebula
                     continue;
                 }
                 _profileByName[profiles[i].name] = profiles[i];
+            }
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (Instance == this) Instance = null;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (ui == null)
+            {
+                ui = FindFirstObjectByType<DialogueUI>(FindObjectsInactive.Include);
+                if (ui != null)
+                {
+                    ui.SetVisible(false);
+                    ui.ClearChoices();
+                }
+            }
+            if (chirpSource == null && ui != null)
+            {
+                chirpSource = ui.GetComponentInChildren<AudioSource>();
             }
         }
 

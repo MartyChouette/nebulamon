@@ -24,7 +24,8 @@ namespace Nebula
             if (dialogueManager == null)
             {
                 dialogueManager = DialogueManager.Instance;
-                dialogueManager = FindFirstObjectByType<DialogueManager>();
+                if (dialogueManager == null)
+                    dialogueManager = FindFirstObjectByType<DialogueManager>();
                 if (dialogueManager == null)
                 {
                     Debug.LogError("[DialogueSpeaker] No DialogueManager found in scene.");
@@ -46,6 +47,7 @@ namespace Nebula
 
         public void StartConversation(string convoId)
         {
+            if (dialogueManager == null) dialogueManager = DialogueManager.Instance;
             if (dialogueManager == null) dialogueManager = FindFirstObjectByType<DialogueManager>();
             if (dialogueManager == null)
             {
