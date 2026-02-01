@@ -6,9 +6,6 @@ namespace Nebula
     [RequireComponent(typeof(Rigidbody2D))]
     public class EncounterDirector2D : MonoBehaviour
     {
-        [Tooltip("Player tag used by region triggers.")]
-        public string playerTag = "Player";
-
         private Rigidbody2D _rb;
 
         private readonly List<EncounterRegion2D> _regionsInside = new();
@@ -45,7 +42,7 @@ namespace Nebula
                 return;
             }
 
-            // Don’t roll during cooldown or if we are transitioning scenes
+            // Donï¿½t roll during cooldown or if we are transitioning scenes
             if (_cooldownTimer > 0f || GameFlowManager.Instance == null)
             {
                 _lastPos = _rb.position;
@@ -89,10 +86,6 @@ namespace Nebula
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // We want regions to be triggers; the ship has collider too.
-            if (!CompareTag(playerTag))
-                return;
-
             var region = other.GetComponent<EncounterRegion2D>();
             if (region != null && !_regionsInside.Contains(region))
                 _regionsInside.Add(region);
@@ -100,9 +93,6 @@ namespace Nebula
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (!CompareTag(playerTag))
-                return;
-
             var region = other.GetComponent<EncounterRegion2D>();
             if (region != null)
                 _regionsInside.Remove(region);

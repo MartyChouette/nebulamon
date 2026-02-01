@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -53,8 +52,8 @@ namespace Nebula
                 if (Data == null) Data = NewDefault();
 
                 // sanitize
-                if (Data.flags == null) Data.flags = new ProgressionData.StringFlag[0].ToList();
-                if (Data.counters == null) Data.counters = new ProgressionData.StringCounter[0].ToList();
+                if (Data.flags == null) Data.flags = new List<ProgressionData.StringFlag>();
+                if (Data.counters == null) Data.counters = new List<ProgressionData.StringCounter>();
                 if (Data.planetsDiscovered == null) Data.planetsDiscovered = new System.Collections.Generic.List<PlanetId>();
                 if (Data.planetsLanded == null) Data.planetsLanded = new System.Collections.Generic.List<PlanetId>();
                 if (Data.knowledgeLearned == null) Data.knowledgeLearned = new System.Collections.Generic.List<KnowledgeId>();
