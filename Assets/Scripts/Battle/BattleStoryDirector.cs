@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 
 namespace Nebula
@@ -31,6 +32,9 @@ namespace Nebula
         [SerializeField] private float defaultTextSpeed = 45f;
         [SerializeField] private float defaultPauseBetweenLines = 0.3f;
 
+        [Header("Input")]
+        [SerializeField] private InputActionReference advanceAction;
+
         [Header("Audio")]
         [SerializeField] private AudioSource chirpSource;
         [SerializeField] private int chirpEveryNChars = 3;
@@ -52,6 +56,21 @@ namespace Nebula
             // Start with story panel hidden
             if (storyTextPanel != null)
                 storyTextPanel.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            if (advanceAction != null) advanceAction.action.Enable();
+        }
+
+        private void OnDisable()
+        {
+            if (advanceAction != null) advanceAction.action.Disable();
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this) Instance = null;
         }
 
         #region Simple Commands (return IEnumerator for yield return chaining)
@@ -281,7 +300,7 @@ namespace Nebula
             yield return new WaitForSeconds(defaultPauseBetweenLines);
 
             // Wait for any input
-            while (!Input.anyKeyDown && !Input.GetMouseButtonDown(0))
+            while (advanceAction == null || !advanceAction.action.WasPressedThisFrame())
             {
                 yield return null;
             }

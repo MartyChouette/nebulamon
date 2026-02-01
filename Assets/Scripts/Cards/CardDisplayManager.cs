@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Nebula
 {
@@ -54,6 +55,33 @@ namespace Nebula
 
             // Ensure all cards start hidden
             HideAll();
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (Instance == this) Instance = null;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (characterCard == null)
+            {
+                var found = FindFirstObjectByType<CharacterCardUI>(FindObjectsInactive.Include);
+                if (found != null) SetCharacterCard(found);
+            }
+            if (monsterCard == null)
+            {
+                var found = FindFirstObjectByType<MonsterCardUI>(FindObjectsInactive.Include);
+                if (found != null) SetMonsterCard(found);
+            }
+            if (shipCard == null)
+            {
+                var found = FindFirstObjectByType<ShipCardUI>(FindObjectsInactive.Include);
+                if (found != null) SetShipCard(found);
+            }
         }
 
         private void ValidateReferences()

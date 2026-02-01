@@ -15,5 +15,15 @@ namespace Nebula
                 Progression.GenerateVillainAssignmentsIfMissing();
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            Progression.SaveIfDirty();
+        }
+
+        private void OnDestroy()
+        {
+            Progression.SaveIfDirty();
+        }
     }
 }

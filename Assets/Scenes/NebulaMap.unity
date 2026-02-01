@@ -1568,6 +1568,7 @@ MonoBehaviour:
   chirpSource: {fileID: 0}
   chirpEveryNChars: 3
   profiles: []
+  showCharacterCardOnDialogue: 1
 --- !u!114 &1518206281
 MonoBehaviour:
   m_ObjectHideFlags: 0

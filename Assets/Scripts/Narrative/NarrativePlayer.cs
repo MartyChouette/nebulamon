@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using TMPro;
 
 namespace Nebula
@@ -29,6 +30,9 @@ namespace Nebula
         [SerializeField] private float defaultCharsPerSecond = 40f;
         [SerializeField] private float slowMultiplier = 0.5f;
         [SerializeField] private float fastMultiplier = 2f;
+
+        [Header("Input")]
+        [SerializeField] private InputActionReference advanceAction;
 
         [Header("Audio")]
         [SerializeField] private AudioSource chirpSource;
@@ -69,10 +73,20 @@ namespace Nebula
                 dialoguePanel.SetActive(false);
         }
 
+        private void OnEnable()
+        {
+            if (advanceAction != null) advanceAction.action.Enable();
+        }
+
+        private void OnDisable()
+        {
+            if (advanceAction != null) advanceAction.action.Disable();
+        }
+
         private void Update()
         {
             // Handle skip/advance input
-            if (_isPlaying && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
+            if (_isPlaying && advanceAction != null && advanceAction.action.WasPressedThisFrame())
             {
                 if (_waitingForInput)
                 {

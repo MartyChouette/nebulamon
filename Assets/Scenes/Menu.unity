@@ -647,7 +647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &289290845
 RectTransform:
   m_ObjectHideFlags: 0
@@ -963,7 +963,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 3.67
+  orthographic size: 2.175
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1302,7 +1302,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 9.4948635, w: -44.63913}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
 --- !u!114 &782441626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1557,7 +1557,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
@@ -1568,7 +1568,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -7
   m_TargetDisplay: 0
 --- !u!224 &782441628
 RectTransform:
@@ -1647,6 +1647,7 @@ MonoBehaviour:
   chirpSource: {fileID: 0}
   chirpEveryNChars: 3
   profiles: []
+  showCharacterCardOnDialogue: 1
 --- !u!4 &806984796
 Transform:
   m_ObjectHideFlags: 0
@@ -2091,7 +2092,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: -6.4, y: -5.1, z: -11.7, w: -4.03}
+  m_RaycastPadding: {x: -12.73, y: -5.1, z: -11.7, w: -4.03}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
