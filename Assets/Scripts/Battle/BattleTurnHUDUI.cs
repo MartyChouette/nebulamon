@@ -81,23 +81,8 @@ namespace Nebula
 
         private int GetBaseSpeedSafe(MonsterInstance m)
         {
-            // If your MonsterDefinition has "speed", this will work.
-            // If not, it falls back to EffectiveSpeed so "Normal" will show.
-            try
-            {
-                // Common pattern: def.speed
-                var t = m.def.GetType();
-                var f = t.GetField("speed");
-                if (f != null && f.FieldType == typeof(int))
-                    return Mathf.Max(1, (int)f.GetValue(m.def));
-
-                var p = t.GetProperty("speed");
-                if (p != null && p.PropertyType == typeof(int))
-                    return Mathf.Max(1, (int)p.GetValue(m.def));
-            }
-            catch { /* ignore */ }
-
-            return Mathf.Max(1, m.EffectiveSpeed());
+            if (m?.def == null) return Mathf.Max(1, m?.EffectiveSpeed() ?? 1);
+            return Mathf.Max(1, m.def.speed);
         }
 
         // ---------------- Turn Order Projection ----------------
@@ -164,8 +149,8 @@ namespace Nebula
             Sprite pIcon = GetBattleSpriteSafe(player);
             Sprite eIcon = GetBattleSpriteSafe(enemy);
 
-            // This sim’s “ticks” are the same loop-iterations your AdvanceMeters uses.
-            // It’s not seconds; it’s “CTB ticks” (useful for preview).
+            // This simï¿½s ï¿½ticksï¿½ are the same loop-iterations your AdvanceMeters uses.
+            // Itï¿½s not seconds; itï¿½s ï¿½CTB ticksï¿½ (useful for preview).
             int accumulatedTicks = 0;
 
             for (int i = 0; i < count; i++)
@@ -241,21 +226,7 @@ namespace Nebula
         private static Sprite GetBattleSpriteSafe(MonsterInstance m)
         {
             if (m?.def == null) return null;
-
-            try
-            {
-                var t = m.def.GetType();
-                var f = t.GetField("battleSprite");
-                if (f != null && f.FieldType == typeof(Sprite))
-                    return (Sprite)f.GetValue(m.def);
-
-                var p = t.GetProperty("battleSprite");
-                if (p != null && p.PropertyType == typeof(Sprite))
-                    return (Sprite)p.GetValue(m.def);
-            }
-            catch { /* ignore */ }
-
-            return null;
+            return m.def.battleSprite;
         }
     }
 }
