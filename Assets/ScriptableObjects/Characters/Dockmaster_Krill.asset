@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d5fb5b8d530c6409a48c4c4a2daed5, type: 3}
+  m_Name: Dockmaster_Krill
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.CharacterDefinition
+  displayName: Dockmaster Krill
+  title: Spaceport Authority
+  characterId: dockmaster_krill
+  portrait: {fileID: 0}
+  background: {fileID: 0}
+  description: Manages docking operations at Port Solace. Knows everyone.
+  homePlanetIndex: -1
+  chirpProfile: {fileID: 0}
