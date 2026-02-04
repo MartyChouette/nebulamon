@@ -69,10 +69,10 @@ namespace Nebula
             if (metaText)
             {
                 var sb = new StringBuilder();
-                sb.Append(_move.element).Append(" • ").Append(_move.kind).Append(" • ").Append(_move.category);
-                if (_move.power > 0) sb.Append(" • Pow ").Append(_move.power);
-                if (_move.accuracy > 0f) sb.Append(" • Acc ").Append(Mathf.RoundToInt(_move.accuracy * 100f)).Append("%");
-                if (_move.healAmount > 0) sb.Append(" • Heal ").Append(_move.healAmount);
+                sb.Append(_move.element).Append(" Â· ").Append(_move.kind).Append(" Â· ").Append(_move.category);
+                if (_move.power > 0) sb.Append(" Â· Pow ").Append(_move.power);
+                if (_move.accuracy > 0f) sb.Append(" Â· Acc ").Append(Mathf.RoundToInt(_move.accuracy * 100f)).Append("%");
+                if (_move.healAmount > 0) sb.Append(" Â· Heal ").Append(_move.healAmount);
                 metaText.text = sb.ToString();
             }
 
@@ -96,7 +96,7 @@ namespace Nebula
 
         private static string FormatCost(MoveDefinition m)
         {
-            if (m == null || m.costs == null || m.costs.Count == 0) return "—";
+            if (m == null || m.costs == null || m.costs.Count == 0) return "-";
 
             var sb = new StringBuilder();
             for (int i = 0; i < m.costs.Count; i++)
@@ -110,7 +110,7 @@ namespace Nebula
 
         private static string FormatAfter(MonsterInstance active, MoveDefinition m)
         {
-            if (active == null) return "—";
+            if (active == null) return "-";
 
             int solar = active.pool.solar;
             int voids = active.pool.voids;

@@ -149,8 +149,8 @@ namespace Nebula
             Sprite pIcon = GetBattleSpriteSafe(player);
             Sprite eIcon = GetBattleSpriteSafe(enemy);
 
-            // This sim�s �ticks� are the same loop-iterations your AdvanceMeters uses.
-            // It�s not seconds; it�s �CTB ticks� (useful for preview).
+            // This sim's "ticks" are the same loop-iterations your AdvanceMeters uses.
+            // It's not seconds; it's "CTB ticks" (useful for preview).
             int accumulatedTicks = 0;
 
             for (int i = 0; i < count; i++)

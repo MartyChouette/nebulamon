@@ -15,7 +15,7 @@ namespace Nebula
             get
             {
                 for (int i = 0; i < party.Count; i++)
-                    if (!party[i].IsDead) return false;
+                    if (party[i] != null && !party[i].IsDead) return false;
                 return true;
             }
         }
@@ -26,7 +26,7 @@ namespace Nebula
             {
                 int count = 0;
                 for (int i = 0; i < party.Count; i++)
-                    if (!party[i].IsDead) count++;
+                    if (party[i] != null && !party[i].IsDead) count++;
                 return count;
             }
         }

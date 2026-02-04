@@ -243,14 +243,14 @@ namespace Nebula
             {
                 case PlayerAction.Move:
                     yield return TakeTurn(attackerIsPlayer: true, _playerMove);
-                    ConsumeTurn(player);
-                    yield return TickActorStatusEndOfTurn(player);
+                    ConsumeTurn(_player.Active);
+                    yield return TickActorStatusEndOfTurn(_player.Active);
                     break;
 
                 case PlayerAction.Draw:
                     yield return DoDrawAction(player, enemy);
-                    ConsumeTurn(player);
-                    yield return TickActorStatusEndOfTurn(player);
+                    ConsumeTurn(_player.Active);
+                    yield return TickActorStatusEndOfTurn(_player.Active);
                     break;
 
                 case PlayerAction.Run:
@@ -265,13 +265,13 @@ namespace Nebula
                     ui?.SetResources(_player.Active);
                     ui?.SetTop($"Go, {_player.Active.def.displayName}!");
                     yield return new WaitForSeconds(cfg != null ? cfg.moveAnnounceDelay : 0.35f);
-                    ConsumeTurn(player);
+                    ConsumeTurn(_player.Active);
                     break;
 
                 case PlayerAction.Item:
                     yield return HandleItemUse();
                     if (!_battleEnded)
-                        ConsumeTurn(player);
+                        ConsumeTurn(_player.Active);
                     break;
             }
         }
@@ -416,7 +416,8 @@ namespace Nebula
 
             if (Random.value < drawBonusChance)
             {
-                var bonus = (ElementType)Random.Range(0, 4);
+                var values = (ElementType[])System.Enum.GetValues(typeof(ElementType));
+                var bonus = values[Random.Range(0, values.Length)];
                 drawer.pool.Add(bonus, 1);
             }
 

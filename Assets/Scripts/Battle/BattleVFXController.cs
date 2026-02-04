@@ -120,7 +120,7 @@ namespace Nebula
             if (crit) amt = critShakeAmount;
             else if (weak) amt = weakShakeAmount;
 
-            // element-tailored “feel”
+            // element-tailored "feel"
             switch (element)
             {
                 case ElementType.Solar: amt *= 1.1f; break;
