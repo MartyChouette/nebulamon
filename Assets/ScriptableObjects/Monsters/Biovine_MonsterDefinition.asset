@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef4c7a328de9f24894e2dc282f55a49, type: 3}
+  m_Name: Biovine_MonsterDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.MonsterDefinition
+  monsterId: 3
+  displayName: Biovine
+  element: 2
+  battleSprite: {fileID: 0}
+  animFrames: []
+  animFps: 6
+  maxHP: 48
+  speed: 7
+  physAttack: 10
+  physDefense: 14
+  elemAttack: 11
+  elemDefense: 13
+  accuracy: 10
+  evasion: 7
+  resolve: 12
+  luck: 2
+  hpGrowth: 2.8
+  speedGrowth: 0.6
+  physAttackGrowth: 0.8
+  physDefenseGrowth: 1.2
+  elemAttackGrowth: 0.9
+  elemDefenseGrowth: 1.1
+  accuracyGrowth: 0.8
+  evasionGrowth: 0.5
+  resolveGrowth: 1.0
+  luckGrowth: 0.3
+  moves:
+  - {fileID: 11400000, guid: c1f7442a5bfaf9340bd8f2d6257367e6, type: 2}
+  - {fileID: 11400000, guid: c3510d7a791571bf6a47b976ca17d72a, type: 2}
+  - {fileID: 11400000, guid: 8c1f32fe8ed3f4b9098009cff5228495, type: 2}
+  evolvedForm: {fileID: 11400000, guid: daf7cea2f5e7b14a0aef7467d591238e, type: 2}
+  baseXpYield: 30
+  bestiaryDescription: Biovine attach themselves to derelict ships and space stations, slowly converting metal into organic matter. Despite their parasitic nature, captured Biovine form genuine bonds with trainers, wrapping a protective tendril around their wrist.

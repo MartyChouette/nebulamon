@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef4c7a328de9f24894e2dc282f55a49, type: 3}
+  m_Name: Chronofly_MonsterDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.MonsterDefinition
+  monsterId: 4
+  displayName: Chronofly
+  element: 3
+  battleSprite: {fileID: 0}
+  animFrames: []
+  animFps: 6
+  maxHP: 30
+  speed: 18
+  physAttack: 10
+  physDefense: 7
+  elemAttack: 13
+  elemDefense: 8
+  accuracy: 13
+  evasion: 15
+  resolve: 8
+  luck: 5
+  hpGrowth: 1.8
+  speedGrowth: 1.4
+  physAttackGrowth: 0.8
+  physDefenseGrowth: 0.5
+  elemAttackGrowth: 1.1
+  elemDefenseGrowth: 0.6
+  accuracyGrowth: 1.1
+  evasionGrowth: 1.3
+  resolveGrowth: 0.7
+  luckGrowth: 0.6
+  moves:
+  - {fileID: 11400000, guid: baef1636feaecc08151848a13f3ad434, type: 2}
+  - {fileID: 11400000, guid: 198fc993f37baeb1561d90eb68f054ae, type: 2}
+  - {fileID: 11400000, guid: 89bbd58963e87a5644e426829e577fc4, type: 2}
+  evolvedForm: {fileID: 11400000, guid: 636b611b788c920005640956447712eb, type: 2}
+  baseXpYield: 28
+  bestiaryDescription: Chronofly swarms are a navigation hazard near temporal anomalies. They phase in and out of the present, making them nearly impossible to catch with standard equipment. Pilots report seeing them hovering motionless, then vanishing before the eye can focus.

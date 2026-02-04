@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef4c7a328de9f24894e2dc282f55a49, type: 3}
+  m_Name: Flaredon_MonsterDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.MonsterDefinition
+  monsterId: 5
+  displayName: Flaredon
+  element: 0
+  battleSprite: {fileID: 0}
+  animFrames: []
+  animFps: 6
+  maxHP: 55
+  speed: 10
+  physAttack: 18
+  physDefense: 16
+  elemAttack: 12
+  elemDefense: 11
+  accuracy: 12
+  evasion: 7
+  resolve: 12
+  luck: 4
+  hpGrowth: 3.2
+  speedGrowth: 0.8
+  physAttackGrowth: 1.6
+  physDefenseGrowth: 1.4
+  elemAttackGrowth: 1.0
+  elemDefenseGrowth: 0.9
+  accuracyGrowth: 1.0
+  evasionGrowth: 0.5
+  resolveGrowth: 1.0
+  luckGrowth: 0.5
+  moves:
+  - {fileID: 11400000, guid: 6d2063733b3b072b1a0780b09be6ad56, type: 2}
+  - {fileID: 11400000, guid: 215800923f4685fe9dd8cae1017489b9, type: 2}
+  - {fileID: 11400000, guid: 06bd5c98a8f8d21f4f047be03a5e1885, type: 2}
+  - {fileID: 11400000, guid: f27080ac45bccc68b4b6356727980b19, type: 2}
+  evolvedForm: {fileID: 0}
+  baseXpYield: 55
+  bestiaryDescription: Flaredon's corona plating is forged from condensed stellar matter. In ancient nebula texts, they're called 'walking suns.' A single charge can buckle a ship's blast doors. Despite their ferocity, bonded Flaredon are fiercely protective of their trainers.

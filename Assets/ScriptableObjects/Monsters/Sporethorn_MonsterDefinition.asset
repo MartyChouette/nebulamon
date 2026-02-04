@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef4c7a328de9f24894e2dc282f55a49, type: 3}
+  m_Name: Sporethorn_MonsterDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.MonsterDefinition
+  monsterId: 7
+  displayName: Sporethorn
+  element: 2
+  battleSprite: {fileID: 0}
+  animFrames: []
+  animFps: 6
+  maxHP: 62
+  speed: 8
+  physAttack: 14
+  physDefense: 16
+  elemAttack: 13
+  elemDefense: 15
+  accuracy: 11
+  evasion: 7
+  resolve: 14
+  luck: 3
+  hpGrowth: 3.5
+  speedGrowth: 0.6
+  physAttackGrowth: 1.2
+  physDefenseGrowth: 1.4
+  elemAttackGrowth: 1.1
+  elemDefenseGrowth: 1.3
+  accuracyGrowth: 0.9
+  evasionGrowth: 0.5
+  resolveGrowth: 1.2
+  luckGrowth: 0.4
+  moves:
+  - {fileID: 11400000, guid: 9c464505a8ec099ce20f553519afe5ff, type: 2}
+  - {fileID: 11400000, guid: 7cc7af73d26195361e609ce9cd1029c0, type: 2}
+  - {fileID: 11400000, guid: 8c1f32fe8ed3f4b9098009cff5228495, type: 2}
+  - {fileID: 11400000, guid: c3510d7a791571bf6a47b976ca17d72a, type: 2}
+  evolvedForm: {fileID: 0}
+  baseXpYield: 60
+  bestiaryDescription: Sporethorn colonies have been found growing on hulls of ships lost for centuries, perfectly preserved in a cocoon of organic armor. Its spore clouds can disable an entire boarding party. Alliance military has classified it as a Class-3 biological hazard.

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5b553242110384ebad0f1418c1a24f, type: 3}
+  m_Name: Photosynthesis_MoveDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.MoveDefinition
+  moveName: Photosynthesis
+  category: 2
+  kind: 1
+  element: 2
+  costs:
+  - element: 2
+    amount: 4
+  accuracy: 1.0
+  critChance: 0
+  power: 1
+  healAmount: 20
+  status:
+    enabled: 0
+    type: 0
+    applyChance: 0
+    durationTurns: 1
+    applyToSelf: 0
+    potency: 0

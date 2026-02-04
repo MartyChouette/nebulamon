@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef4c7a328de9f24894e2dc282f55a49, type: 3}
+  m_Name: Tempora_MonsterDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.MonsterDefinition
+  monsterId: 8
+  displayName: Tempora
+  element: 3
+  battleSprite: {fileID: 0}
+  animFrames: []
+  animFps: 6
+  maxHP: 44
+  speed: 16
+  physAttack: 11
+  physDefense: 11
+  elemAttack: 17
+  elemDefense: 12
+  accuracy: 14
+  evasion: 13
+  resolve: 11
+  luck: 7
+  hpGrowth: 2.4
+  speedGrowth: 1.3
+  physAttackGrowth: 0.9
+  physDefenseGrowth: 0.9
+  elemAttackGrowth: 1.5
+  elemDefenseGrowth: 1.0
+  accuracyGrowth: 1.1
+  evasionGrowth: 1.1
+  resolveGrowth: 0.9
+  luckGrowth: 0.8
+  moves:
+  - {fileID: 11400000, guid: 2b675347414be495095c6693db6896cc, type: 2}
+  - {fileID: 11400000, guid: 198fc993f37baeb1561d90eb68f054ae, type: 2}
+  - {fileID: 11400000, guid: 89bbd58963e87a5644e426829e577fc4, type: 2}
+  - {fileID: 11400000, guid: b7bd4c478f4333ea294e8f1b73df37be, type: 2}
+  evolvedForm: {fileID: 0}
+  baseXpYield: 62
+  bestiaryDescription: Tempora exist slightly out of phase with normal spacetime. Their crystalline antlers contain echoes of possible futures - some researchers claim to see visions when touching the fragments. A Tempora's mere presence can cause chronometers to desync across an entire station.

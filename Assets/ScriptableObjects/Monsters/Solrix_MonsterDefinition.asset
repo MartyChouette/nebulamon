@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef4c7a328de9f24894e2dc282f55a49, type: 3}
+  m_Name: Solrix_MonsterDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.MonsterDefinition
+  monsterId: 1
+  displayName: Solrix
+  element: 0
+  battleSprite: {fileID: 0}
+  animFrames: []
+  animFps: 6
+  maxHP: 38
+  speed: 14
+  physAttack: 13
+  physDefense: 10
+  elemAttack: 11
+  elemDefense: 9
+  accuracy: 12
+  evasion: 11
+  resolve: 9
+  luck: 3
+  hpGrowth: 2.2
+  speedGrowth: 1.1
+  physAttackGrowth: 1.2
+  physDefenseGrowth: 0.9
+  elemAttackGrowth: 1.0
+  elemDefenseGrowth: 0.8
+  accuracyGrowth: 1.0
+  evasionGrowth: 0.9
+  resolveGrowth: 0.8
+  luckGrowth: 0.5
+  moves:
+  - {fileID: 11400000, guid: f27080ac45bccc68b4b6356727980b19, type: 2}
+  - {fileID: 11400000, guid: 06bd5c98a8f8d21f4f047be03a5e1885, type: 2}
+  - {fileID: 11400000, guid: dcf36558b941295e7b7affcb1ea1b68e, type: 2}
+  evolvedForm: {fileID: 11400000, guid: e1d6211d8bfd42a68366ce1c5dc802ae, type: 2}
+  baseXpYield: 28
+  bestiaryDescription: Found basking in the coronas of young stars. Solrix colonies ride solar winds between systems, feeding on raw photon streams. Trainers prize them for their eager temperament and reliable combat instincts.
