@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c27af75cab238040aad7c8faba78b36, type: 3}
+  m_Name: Wild_Tempora
+  m_EditorClassIdentifier: Assembly-CSharp::Nebula.EnemyDefinition
+  enemyId: wild_tempora
+  displayName: Wild Tempora
+  battlePrefab: {fileID: 0}
+  threatLevel: 4
+  enemyPilotSprite: {fileID: 0}
+  enemyShipSprite: {fileID: 0}
+  rewardMoney: 80
+  trainerId:
+  isTrainer: 0
+  party:
+  - {fileID: 11400000, guid: 636b611b788c920005640956447712eb, type: 2}

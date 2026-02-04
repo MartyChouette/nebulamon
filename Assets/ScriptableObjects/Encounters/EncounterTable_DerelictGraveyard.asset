@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25ee45e4971ba574eb502c0975713255, type: 3}
-  m_Name: EncounterTable
+  m_Name: EncounterTable_DerelictGraveyard
   m_EditorClassIdentifier: Assembly-CSharp::Nebula.EncounterTable
   entries:
-  - enemy: {fileID: 11400000, guid: 8f8869fcb8173491e58b9c97881cd74d, type: 2}
-    weight: 0.4
-  - enemy: {fileID: 11400000, guid: 45a6f17331f84dab2859c462414f39f5, type: 2}
+  - enemy: {fileID: 11400000, guid: 93a1b33c12b7014dde4df8143f935a27, type: 2}
     weight: 0.25
-  - enemy: {fileID: 11400000, guid: d7653d634b5e91e4d571ff3b2de4ffef, type: 2}
-    weight: 0.2
-  - enemy: {fileID: 11400000, guid: 49903e5d6b963baed845044acd14f539, type: 2}
-    weight: 0.15
+  - enemy: {fileID: 11400000, guid: e9233cf169d8977683bd6c5dca8b7f40, type: 2}
+    weight: 0.25
+  - enemy: {fileID: 11400000, guid: badc5b19c18ccd0f3970651abd679587, type: 2}
+    weight: 0.25
+  - enemy: {fileID: 11400000, guid: 42ceaf6616ec8c4d2bcaf6d7c45047cd, type: 2}
+    weight: 0.25
