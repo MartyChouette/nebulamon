@@ -96,6 +96,7 @@ namespace Nebula
                 if (idx < 0 || idx >= data.roster.Count) continue;
 
                 var owned = data.roster[idx];
+                if (owned == null) continue;
                 var def = catalog != null ? catalog.GetByMonsterId(owned.monsterId) : null;
                 owned.currentHp = CalcMaxHp(def, owned.level);
             }

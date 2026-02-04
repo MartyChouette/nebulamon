@@ -232,8 +232,12 @@ namespace Nebula
             SetPanelActive(moveSlotPanel, true);
 
             var data = Progression.Data;
+            if (data == null) return;
+            if (_selectedPartyIdx < 0 || _selectedPartyIdx >= data.partyIndices.Count) return;
             int rosterIdx = data.partyIndices[_selectedPartyIdx];
+            if (rosterIdx < 0 || rosterIdx >= data.roster.Count) return;
             var owned = data.roster[rosterIdx];
+            if (owned == null) return;
 
             for (int i = 0; i < moveSlots.Length; i++)
             {
@@ -273,8 +277,12 @@ namespace Nebula
             if (_selectedItem == null || _selectedItem.taughtMove == null) return;
 
             var data = Progression.Data;
+            if (data == null) return;
+            if (_selectedPartyIdx < 0 || _selectedPartyIdx >= data.partyIndices.Count) return;
             int rosterIdx = data.partyIndices[_selectedPartyIdx];
+            if (rosterIdx < 0 || rosterIdx >= data.roster.Count) return;
             var owned = data.roster[rosterIdx];
+            if (owned == null) return;
 
             string newMoveName = _selectedItem.taughtMove.moveName;
 

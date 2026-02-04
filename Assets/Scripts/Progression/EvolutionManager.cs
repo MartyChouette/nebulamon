@@ -57,17 +57,6 @@ namespace Nebula
             tempInstance.hp = owned.currentHp;
             tempInstance.xp = owned.xp;
 
-            // Restore known moves
-            tempInstance.knownMoves.Clear();
-            if (catalog != null)
-            {
-                // Rebuild known moves from names (MoveDefs aren't saved, only names)
-                foreach (var moveName in owned.knownMoveNames)
-                {
-                    // We don't have a move catalog lookup by name, so keep names as-is
-                }
-            }
-
             // Perform evolution
             var newDef = item.evolvedInto;
             tempInstance.Evolve(newDef);

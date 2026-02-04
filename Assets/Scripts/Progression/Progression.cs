@@ -394,7 +394,7 @@ namespace Nebula
             return outList;
         }
 
-        // Optional: return a �primary romance� for planets with one, or the first option for planets with two.
+        // Optional: return a "primary romance" for planets with one, or the first option for planets with two.
         public static bool TryGetPrimaryRomanceForPlanet(PlanetId planet, out RomanceCandidateId candidate)
         {
             var list = GetRomancesForPlanet(planet);
@@ -473,7 +473,7 @@ namespace Nebula
         }
 
         /// <summary>
-        /// Optional: set the romance currently �active� (for UI, quests, etc.)
+        /// Optional: set the romance currently "active" (for UI, quests, etc.)
         /// </summary>
         public static void SetActiveRomance(RomanceCandidateId candidate)
         {
