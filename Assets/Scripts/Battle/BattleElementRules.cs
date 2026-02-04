@@ -1,5 +1,4 @@
 // Assets/Scripts/Battle/BattleElementRules.cs
-using Nebula;
 using UnityEngine;
 
 namespace Nebula
@@ -17,8 +16,12 @@ namespace Nebula
 
         public static float AdvantageMultiplier(ElementType attacker, ElementType defender)
         {
-            if (IsStrongAgainst(attacker, defender)) return 2.0f;
-            if (IsStrongAgainst(defender, attacker)) return 0.5f;
+            var cfg = BattleConfig.Instance;
+            float strong = cfg != null ? cfg.strongMultiplier : 2.0f;
+            float weak = cfg != null ? cfg.weakMultiplier : 0.5f;
+
+            if (IsStrongAgainst(attacker, defender)) return strong;
+            if (IsStrongAgainst(defender, attacker)) return weak;
             return 1.0f;
         }
 
@@ -32,15 +35,20 @@ namespace Nebula
             bool isCrit,
             float random01)
         {
+            var cfg = BattleConfig.Instance;
+            float stabVal = cfg != null ? cfg.stabBonus : 1.25f;
+            float critVal = cfg != null ? cfg.critMultiplier : 1.5f;
+            float rngMin = cfg != null ? cfg.damageRngMin : 0.9f;
+            float rngMax = cfg != null ? cfg.damageRngMax : 1.1f;
+
             float atk = Mathf.Max(1f, attackerAtk);
             float def = Mathf.Max(1f, defenderDef);
 
-            float stab = (moveElement == attackerElement) ? 1.25f : 1f;
+            float stab = (moveElement == attackerElement) ? stabVal : 1f;
             float adv = AdvantageMultiplier(moveElement, defenderElement);
-            float crit = isCrit ? 1.5f : 1f;
+            float crit = isCrit ? critVal : 1f;
 
-            // mild randomness 0.9..1.1
-            float rng = Mathf.Lerp(0.9f, 1.1f, Mathf.Clamp01(random01));
+            float rng = Mathf.Lerp(rngMin, rngMax, Mathf.Clamp01(random01));
 
             float raw = basePower * (atk / def) * stab * adv * crit * rng;
             return Mathf.Max(1f, raw);

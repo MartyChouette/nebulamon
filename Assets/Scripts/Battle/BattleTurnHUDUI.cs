@@ -82,7 +82,7 @@ namespace Nebula
         private int GetBaseSpeedSafe(MonsterInstance m)
         {
             if (m?.def == null) return Mathf.Max(1, m?.EffectiveSpeed() ?? 1);
-            return Mathf.Max(1, m.def.speed);
+            return Mathf.Max(1, Mathf.RoundToInt(m.def.speed + m.def.speedGrowth * (m.level - 1)));
         }
 
         // ---------------- Turn Order Projection ----------------

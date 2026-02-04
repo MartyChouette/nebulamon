@@ -21,6 +21,13 @@ namespace Nebula
         public Sprite enemyPilotSprite;
         public Sprite enemyShipSprite;
 
+        [Header("Rewards")]
+        public int rewardMoney = 50;
+
+        [Header("Trainer")]
+        public string trainerId;
+        public bool isTrainer = false;
+
         [Header("Enemy Party (1..3)")]
         public List<MonsterDefinition> party = new();
 

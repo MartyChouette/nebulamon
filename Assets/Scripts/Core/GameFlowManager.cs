@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,7 +46,7 @@ namespace Nebula
             CacheReturnPayloadFromPlayer(playerBody, playerTransform);
 
             PendingEnemy = enemy;
-            SceneManager.LoadScene(battleSceneName, LoadSceneMode.Single);
+            StartCoroutine(TransitionToScene(battleSceneName));
         }
 
         public void EnterTown(string townSceneName, Rigidbody2D playerBody, Transform playerTransform)
@@ -70,8 +71,33 @@ namespace Nebula
             }
 
             PendingEnemy = null;
-            SceneManager.LoadScene(ReturnSceneName, LoadSceneMode.Single);
+            StartCoroutine(TransitionToScene(ReturnSceneName));
             // OverworldSpawnApplier will consume payload and clear it.
+        }
+
+        private IEnumerator TransitionToScene(string sceneName)
+        {
+            var fx = ScreenEffects.Instance;
+            if (fx != null)
+            {
+                yield return fx.IrisWipeOut(0.5f);
+            }
+
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+
+            // Wipe in after load (next frame the new scene is active)
+            yield return null;
+
+            fx = ScreenEffects.Instance;
+            if (fx != null)
+            {
+                yield return fx.IrisWipeIn(0.5f);
+            }
+            else
+            {
+                var wipe = TransitionWipeController.Instance;
+                if (wipe != null) wipe.ClearWipe();
+            }
         }
 
         public void ClearReturnPayload()

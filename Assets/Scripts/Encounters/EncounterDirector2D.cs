@@ -78,6 +78,11 @@ namespace Nebula
             if (enemy == null)
                 return;
 
+            // Skip defeated trainers
+            if (enemy.isTrainer && !string.IsNullOrEmpty(enemy.trainerId)
+                && Progression.IsTrainerDefeated(enemy.trainerId))
+                return;
+
             _cooldownTimer = region.encounterCooldownSeconds;
 
             // Start battle through your persistent flow manager

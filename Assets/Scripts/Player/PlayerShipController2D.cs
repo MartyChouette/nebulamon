@@ -31,9 +31,13 @@ namespace Nebula
         public bool enableBrake = true;
         public float brakeDragMultiplier = 6f;
 
+        [Header("Boost")]
+        public float boostMultiplier = 1.8f;
+
         [Header("Outputs (for other scripts)")]
         public bool fireHeld;
         public bool interactPressedThisFrame;
+        public bool boostHeld;
 
         // Input actions
         private InputAction _move;   // Vector2 (WASD / left stick)
@@ -41,6 +45,7 @@ namespace Nebula
         private InputAction _fire;
         private InputAction _interact;
         private InputAction _brake;
+        private InputAction _boost;
 
         private Rigidbody2D _rb;
         private PlayerInput _playerInput;
@@ -81,6 +86,7 @@ namespace Nebula
             _fire = actions.FindAction("Fire", true);
             _interact = actions.FindAction("Interact", true);
             _brake = actions.FindAction("Brake", false);
+            _boost = actions.FindAction("Boost", false);
 
             if (aimCamera == null) aimCamera = Camera.main;
 
@@ -97,6 +103,7 @@ namespace Nebula
             _fire?.Enable();
             _interact?.Enable();
             _brake?.Enable();
+            _boost?.Enable();
         }
 
         private void OnDisable()
@@ -106,6 +113,7 @@ namespace Nebula
             _fire?.Disable();
             _interact?.Disable();
             _brake?.Disable();
+            _boost?.Disable();
         }
 
         private void Update()
@@ -178,6 +186,7 @@ namespace Nebula
                 interactPressedThisFrame = true;
 
             _brakeHeld = (_brake != null) && _brake.IsPressed();
+            boostHeld = (_boost != null) && _boost.IsPressed();
         }
 
         private void FixedUpdate()
@@ -215,8 +224,11 @@ namespace Nebula
             if (_moveValue.sqrMagnitude < 0.0001f)
                 return;
 
+            float force = moveForce;
+            if (boostHeld) force *= boostMultiplier;
+
             Vector2 desiredDir = _moveValue.normalized; // world x/y direction
-            _rb.AddForce(desiredDir * moveForce, ForceMode2D.Force);
+            _rb.AddForce(desiredDir * force, ForceMode2D.Force);
         }
 
         private void ApplyRotation(float dt)
@@ -282,9 +294,12 @@ namespace Nebula
 
         private void ClampSpeed()
         {
+            float cap = maxSpeed;
+            if (boostHeld) cap *= boostMultiplier;
+
             float speed = _rb.linearVelocity.magnitude;
-            if (speed > maxSpeed)
-                _rb.linearVelocity = _rb.linearVelocity.normalized * maxSpeed;
+            if (speed > cap)
+                _rb.linearVelocity = _rb.linearVelocity.normalized * cap;
         }
     }
 }

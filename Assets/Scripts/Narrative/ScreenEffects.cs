@@ -239,6 +239,58 @@ namespace Nebula
 
         #endregion
 
+        #region Wipes
+
+        /// <summary>
+        /// Iris wipe out (screen goes to black via circular mask).
+        /// </summary>
+        public IEnumerator IrisWipeOut(float duration = 0.6f)
+        {
+            var wipe = TransitionWipeController.Instance;
+            if (wipe != null)
+                yield return wipe.PlayWipe(TransitionWipeController.WipeType.Iris, duration, false);
+            else
+                yield return FadeOut(duration);
+        }
+
+        /// <summary>
+        /// Iris wipe in (screen reveals from black via circular mask).
+        /// </summary>
+        public IEnumerator IrisWipeIn(float duration = 0.6f)
+        {
+            var wipe = TransitionWipeController.Instance;
+            if (wipe != null)
+                yield return wipe.PlayWipe(TransitionWipeController.WipeType.Iris, duration, true);
+            else
+                yield return FadeIn(duration);
+        }
+
+        /// <summary>
+        /// Horizontal blinds wipe.
+        /// </summary>
+        public IEnumerator BlindsWipe(float duration = 0.5f, bool isIn = false)
+        {
+            var wipe = TransitionWipeController.Instance;
+            if (wipe != null)
+                yield return wipe.PlayWipe(TransitionWipeController.WipeType.Blinds, duration, isIn);
+            else
+                yield return isIn ? FadeIn(duration) : FadeOut(duration);
+        }
+
+        /// <summary>
+        /// Staggered column dissolve wipe.
+        /// </summary>
+        public IEnumerator ColumnDissolve(float duration = 0.6f, bool isIn = false)
+        {
+            var wipe = TransitionWipeController.Instance;
+            if (wipe != null)
+                yield return wipe.PlayWipe(TransitionWipeController.WipeType.ColumnDissolve, duration, isIn);
+            else
+                yield return isIn ? FadeIn(duration) : FadeOut(duration);
+        }
+
+        #endregion
+
         #region Combo Effects
 
         /// <summary>

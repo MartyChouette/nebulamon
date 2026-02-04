@@ -20,6 +20,17 @@ namespace Nebula
             }
         }
 
+        public int AliveCount
+        {
+            get
+            {
+                int count = 0;
+                for (int i = 0; i < party.Count; i++)
+                    if (!party[i].IsDead) count++;
+                return count;
+            }
+        }
+
         public bool TryAdvanceToNextAlive()
         {
             for (int i = 0; i < party.Count; i++)
@@ -31,6 +42,25 @@ namespace Nebula
                 }
             }
             return false;
+        }
+
+        public bool SwitchTo(int index)
+        {
+            if (index < 0 || index >= party.Count) return false;
+            if (party[index].IsDead) return false;
+            activeIndex = index;
+            return true;
+        }
+
+        public List<int> GetAliveIndicesExcept(int exclude)
+        {
+            var list = new List<int>();
+            for (int i = 0; i < party.Count; i++)
+            {
+                if (i != exclude && !party[i].IsDead)
+                    list.Add(i);
+            }
+            return list;
         }
     }
 }

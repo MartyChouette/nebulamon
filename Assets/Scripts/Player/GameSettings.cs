@@ -60,6 +60,13 @@ namespace Nebula
             public const string BattleSpeed = "opt_battle_speed"; // 1..3
             public const string AutoSave = "opt_autosave";
             public const string SkipBattleIntro = "opt_skip_battle_intro";
+
+            // Visual effects
+            public const string GBCPaletteEnabled = "opt_gbc_palette";
+            public const string GBCPaletteIndex = "opt_gbc_palette_idx"; // int: which palette preset
+            public const string ScanlineEnabled = "opt_scanlines";
+            public const string DayNightEnabled = "opt_daynight";
+            public const string CRTPhosphorDitherEnabled = "opt_crt_phosphor";
         }
 
         // -------------------------
@@ -166,6 +173,13 @@ namespace Nebula
             EnsureInt(Keys.BattleSpeed, (int)BattleSpeedEnum.Fast);
             EnsureBool(Keys.AutoSave, true);
             EnsureBool(Keys.SkipBattleIntro, false);
+
+            // Visual effects defaults
+            EnsureBool(Keys.GBCPaletteEnabled, false);
+            EnsureInt(Keys.GBCPaletteIndex, 0);
+            EnsureBool(Keys.ScanlineEnabled, false);
+            EnsureBool(Keys.DayNightEnabled, false);
+            EnsureBool(Keys.CRTPhosphorDitherEnabled, false);
         }
 
         // -------------------------

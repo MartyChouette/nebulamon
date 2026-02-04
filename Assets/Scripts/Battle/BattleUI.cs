@@ -20,11 +20,13 @@ namespace Nebula
         [Header("Move Detail Panel (optional)")]
         public BattleMoveDetailPanel moveDetailPanel;
 
-        [Header("Root Menu (Fight/Draw/Run ONLY)")]
+        [Header("Root Menu")]
         public GameObject rootMenu;
         public Button fightButton;
         public Button drawButton;
         public Button runButton;
+        public Button switchButton;
+        public Button itemButton;
 
         [Header("Moves Menu (Move1-4 + Back ONLY)")]
         public GameObject movesMenu;
@@ -57,10 +59,10 @@ namespace Nebula
         public void SetHP(MonsterInstance player, MonsterInstance enemy)
         {
             if (playerHpText && player?.def != null)
-                playerHpText.text = $"{player.def.displayName}  HP {Mathf.Max(0, player.hp)}/{player.def.maxHP}";
+                playerHpText.text = $"{player.def.displayName}  HP {Mathf.Max(0, player.hp)}/{player.EffectiveMaxHP()}";
 
             if (enemyHpText && enemy?.def != null)
-                enemyHpText.text = $"{enemy.def.displayName}  HP {Mathf.Max(0, enemy.hp)}/{enemy.def.maxHP}";
+                enemyHpText.text = $"{enemy.def.displayName}  HP {Mathf.Max(0, enemy.hp)}/{enemy.EffectiveMaxHP()}";
         }
 
         public void SetResources(MonsterInstance player)
@@ -73,7 +75,7 @@ namespace Nebula
             if (moveDetailPanel) moveDetailPanel.RefreshResources(player);
         }
 
-        // ---------- NEW: Grey out / enable input ----------
+        // ---------- Grey out / enable input ----------
         public void SetPlayerInputEnabled(bool enabled)
         {
             _inputEnabled = enabled;
@@ -82,13 +84,14 @@ namespace Nebula
             if (fightButton) fightButton.interactable = enabled;
             if (drawButton) drawButton.interactable = enabled && drawButton.gameObject.activeSelf;
             if (runButton) runButton.interactable = enabled;
+            if (switchButton) switchButton.interactable = enabled && switchButton.gameObject.activeSelf;
+            if (itemButton) itemButton.interactable = enabled && itemButton.gameObject.activeSelf;
 
             // Move + back buttons: refresh based on affordability and input state
             RefreshMoveButtonInteractableStates();
 
             if (!enabled)
             {
-                // Don�t show the move detail panel when player can't act
                 if (moveDetailPanel) moveDetailPanel.Hide();
             }
         }
@@ -124,7 +127,6 @@ namespace Nebula
             if (movesMenu) movesMenu.SetActive(false);
             if (rootMenu) rootMenu.SetActive(true);
             if (moveDetailPanel) moveDetailPanel.Hide();
-            // keep current input state (don�t auto-enable)
             SetPlayerInputEnabled(_inputEnabled);
         }
 
@@ -132,7 +134,6 @@ namespace Nebula
         {
             if (rootMenu) rootMenu.SetActive(false);
             if (movesMenu) movesMenu.SetActive(true);
-            // keep current input state (don�t auto-enable)
             SetPlayerInputEnabled(_inputEnabled);
         }
 
@@ -143,7 +144,7 @@ namespace Nebula
         }
 
         // ---------- Root button wiring ----------
-        public void WireRootButtons(Action onFight, Action onDraw, Action onRun)
+        public void WireRootButtons(Action onFight, Action onDraw, Action onRun, Action onSwitch = null, Action onItem = null)
         {
             if (fightButton)
             {
@@ -176,6 +177,42 @@ namespace Nebula
                 });
             }
 
+            if (switchButton)
+            {
+                switchButton.onClick.RemoveAllListeners();
+                if (onSwitch != null)
+                {
+                    switchButton.gameObject.SetActive(true);
+                    switchButton.onClick.AddListener(() =>
+                    {
+                        if (!_inputEnabled) return;
+                        onSwitch.Invoke();
+                    });
+                }
+                else
+                {
+                    switchButton.gameObject.SetActive(false);
+                }
+            }
+
+            if (itemButton)
+            {
+                itemButton.onClick.RemoveAllListeners();
+                if (onItem != null)
+                {
+                    itemButton.gameObject.SetActive(true);
+                    itemButton.onClick.AddListener(() =>
+                    {
+                        if (!_inputEnabled) return;
+                        onItem.Invoke();
+                    });
+                }
+                else
+                {
+                    itemButton.gameObject.SetActive(false);
+                }
+            }
+
             SetPlayerInputEnabled(_inputEnabled);
         }
 
@@ -189,10 +226,10 @@ namespace Nebula
 
             for (int i = 0; i < 4; i++) _slotMoves[i] = null;
 
-            if (active?.def?.moves != null)
+            if (active?.knownMoves != null)
             {
-                for (int i = 0; i < Mathf.Min(4, active.def.moves.Count); i++)
-                    _slotMoves[i] = active.def.moves[i];
+                for (int i = 0; i < Mathf.Min(4, active.knownMoves.Count); i++)
+                    _slotMoves[i] = active.knownMoves[i];
             }
 
             SetupMoveButton(move1Button, 0);
@@ -211,10 +248,8 @@ namespace Nebula
                 });
             }
 
-            // apply current enabled/disabled state
             SetPlayerInputEnabled(_inputEnabled);
 
-            // auto select first interactable for gamepad highlight (only if enabled)
             if (_inputEnabled) SelectFirstInteractableMove();
         }
 
@@ -229,7 +264,7 @@ namespace Nebula
 
             if (m == null)
             {
-                if (label) label.text = "�";
+                if (label) label.text = "\u2014";
                 b.interactable = false;
                 BindHighlight(b, null);
                 return;
@@ -250,7 +285,6 @@ namespace Nebula
                     return;
                 }
 
-                // When chosen, leave menus visible but disable input during resolution
                 if (moveDetailPanel) moveDetailPanel.Hide();
                 _onPicked?.Invoke(m);
             });

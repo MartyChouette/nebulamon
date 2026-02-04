@@ -18,8 +18,17 @@ namespace Nebula
 
         private static bool _dirty;
 
-        private static string SavePath => Path.Combine(Application.persistentDataPath, FileName);
+        // Save slots
+        public static int ActiveSlot { get; private set; }
+
+        private static string SavePath => SavePathForSlot(ActiveSlot);
         private static string TempPath => SavePath + ".tmp";
+
+        private static string SavePathForSlot(int slot)
+        {
+            if (slot <= 0) return Path.Combine(Application.persistentDataPath, FileName);
+            return Path.Combine(Application.persistentDataPath, $"save_slot_{slot}.json");
+        }
 
         public static void Load()
         {
@@ -60,6 +69,12 @@ namespace Nebula
                 if (Data.upgradesOwned == null) Data.upgradesOwned = new System.Collections.Generic.List<UpgradeId>();
                 if (Data.villainMonsterAssignments == null) Data.villainMonsterAssignments = new System.Collections.Generic.List<VillainMonsterPair>();
                 if (Data.romances == null) Data.romances = new System.Collections.Generic.List<RomanceEntry>();
+                if (Data.roster == null) Data.roster = new List<ProgressionData.OwnedMonster>();
+                if (Data.partyIndices == null) Data.partyIndices = new List<int>();
+                if (Data.inventory == null) Data.inventory = new List<ProgressionData.InventorySlot>();
+                if (Data.monstersSeen == null) Data.monstersSeen = new List<MonsterId>();
+                if (Data.monstersCaught == null) Data.monstersCaught = new List<MonsterId>();
+                if (Data.trainersDefeated == null) Data.trainersDefeated = new List<string>();
             }
             catch (Exception e)
             {
@@ -281,8 +296,8 @@ namespace Nebula
             var villains = (VillainId[])Enum.GetValues(typeof(VillainId));
             var monsters = new[]
             {
-                MonsterId.Monster1, MonsterId.Monster2, MonsterId.Monster3, MonsterId.Monster4,
-                MonsterId.Monster5, MonsterId.Monster6, MonsterId.Monster7, MonsterId.Monster8
+                MonsterId.Solrix, MonsterId.Voidmaw, MonsterId.Biovine, MonsterId.Chronofly,
+                MonsterId.Flaredon, MonsterId.Abyssal, MonsterId.Sporethorn, MonsterId.Tempora
             };
 
             var rng = (seed == 0) ? new System.Random() : new System.Random(seed);
@@ -468,6 +483,232 @@ namespace Nebula
         }
 
         public static RomanceCandidateId GetActiveRomance() => Ensure().activeRomance;
+
+        // -------------------------
+        // Roster
+        // -------------------------
+        public static void AddToRoster(ProgressionData.OwnedMonster monster)
+        {
+            var d = Ensure();
+            d.roster.Add(monster);
+            Changed();
+        }
+
+        public static List<ProgressionData.OwnedMonster> GetParty()
+        {
+            var d = Ensure();
+            var party = new List<ProgressionData.OwnedMonster>();
+            for (int i = 0; i < d.partyIndices.Count; i++)
+            {
+                int idx = d.partyIndices[i];
+                if (idx >= 0 && idx < d.roster.Count)
+                    party.Add(d.roster[idx]);
+            }
+            return party;
+        }
+
+        public static void SetPartyOrder(List<int> indices)
+        {
+            var d = Ensure();
+            d.partyIndices = indices ?? new List<int>();
+            Changed();
+        }
+
+        public static ProgressionData.OwnedMonster GetRosterEntry(int index)
+        {
+            var d = Ensure();
+            if (index < 0 || index >= d.roster.Count) return null;
+            return d.roster[index];
+        }
+
+        public static int RosterCount => Ensure().roster.Count;
+
+        // -------------------------
+        // Inventory
+        // -------------------------
+        public static void AddItem(string itemId, int count = 1)
+        {
+            if (string.IsNullOrEmpty(itemId) || count <= 0) return;
+            var d = Ensure();
+
+            for (int i = 0; i < d.inventory.Count; i++)
+            {
+                if (d.inventory[i].itemId == itemId)
+                {
+                    var slot = d.inventory[i];
+                    slot.quantity += count;
+                    d.inventory[i] = slot;
+                    Changed();
+                    return;
+                }
+            }
+
+            d.inventory.Add(new ProgressionData.InventorySlot { itemId = itemId, quantity = count });
+            Changed();
+        }
+
+        public static bool RemoveItem(string itemId, int count = 1)
+        {
+            if (string.IsNullOrEmpty(itemId) || count <= 0) return false;
+            var d = Ensure();
+
+            for (int i = 0; i < d.inventory.Count; i++)
+            {
+                if (d.inventory[i].itemId == itemId)
+                {
+                    if (d.inventory[i].quantity < count) return false;
+                    var slot = d.inventory[i];
+                    slot.quantity -= count;
+                    if (slot.quantity <= 0)
+                        d.inventory.RemoveAt(i);
+                    else
+                        d.inventory[i] = slot;
+                    Changed();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static int GetItemCount(string itemId)
+        {
+            if (string.IsNullOrEmpty(itemId)) return 0;
+            var d = Ensure();
+
+            for (int i = 0; i < d.inventory.Count; i++)
+            {
+                if (d.inventory[i].itemId == itemId)
+                    return d.inventory[i].quantity;
+            }
+            return 0;
+        }
+
+        public static List<ProgressionData.InventorySlot> GetInventory() => Ensure().inventory;
+
+        // -------------------------
+        // Bestiary
+        // -------------------------
+        public static void MarkSeen(MonsterId id)
+        {
+            if (id == MonsterId.None) return;
+            var d = Ensure();
+            if (!d.monstersSeen.Contains(id))
+            {
+                d.monstersSeen.Add(id);
+                Changed();
+            }
+        }
+
+        public static void MarkCaught(MonsterId id)
+        {
+            if (id == MonsterId.None) return;
+            var d = Ensure();
+            MarkSeen(id);
+            if (!d.monstersCaught.Contains(id))
+            {
+                d.monstersCaught.Add(id);
+                Changed();
+            }
+        }
+
+        public static bool HasSeen(MonsterId id) => Ensure().monstersSeen.Contains(id);
+        public static bool HasCaught(MonsterId id) => Ensure().monstersCaught.Contains(id);
+        public static int SeenCount() => Ensure().monstersSeen.Count;
+        public static int CaughtCount() => Ensure().monstersCaught.Count;
+
+        // -------------------------
+        // Trainers
+        // -------------------------
+        public static void MarkTrainerDefeated(string trainerId)
+        {
+            if (string.IsNullOrEmpty(trainerId)) return;
+            var d = Ensure();
+            if (!d.trainersDefeated.Contains(trainerId))
+            {
+                d.trainersDefeated.Add(trainerId);
+                Changed();
+            }
+        }
+
+        public static bool IsTrainerDefeated(string trainerId)
+        {
+            if (string.IsNullOrEmpty(trainerId)) return false;
+            return Ensure().trainersDefeated.Contains(trainerId);
+        }
+
+        // -------------------------
+        // Save Slots
+        // -------------------------
+        public static void LoadSlot(int slot)
+        {
+            Data = null; // force re-load
+            ActiveSlot = slot;
+            Load();
+        }
+
+        public static void DeleteSlot(int slot)
+        {
+            string path = SavePathForSlot(slot);
+            string tmp = path + ".tmp";
+            try
+            {
+                if (File.Exists(path)) File.Delete(path);
+                if (File.Exists(tmp)) File.Delete(tmp);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Progression.DeleteSlot({slot}) failed: {e.Message}");
+            }
+
+            if (slot == ActiveSlot)
+            {
+                Data = null;
+            }
+        }
+
+        public static bool SlotExists(int slot)
+        {
+            return File.Exists(SavePathForSlot(slot));
+        }
+
+        /// <summary>
+        /// Returns a lightweight preview of a slot without loading it as active.
+        /// Returns null if the slot doesn't exist.
+        /// </summary>
+        public static SlotPreview GetSlotPreview(int slot)
+        {
+            string path = SavePathForSlot(slot);
+            if (!File.Exists(path)) return null;
+
+            try
+            {
+                string json = File.ReadAllText(path);
+                var d = JsonUtility.FromJson<ProgressionData>(json);
+                if (d == null) return null;
+
+                return new SlotPreview
+                {
+                    slot = slot,
+                    money = d.money,
+                    starterMonster = d.starterMonster,
+                    rosterCount = d.roster?.Count ?? 0,
+                    playTimeSeconds = d.playTimeSeconds
+                };
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public class SlotPreview
+        {
+            public int slot;
+            public int money;
+            public MonsterId starterMonster;
+            public int rosterCount;
+            public float playTimeSeconds;
+        }
 
         // -------------------------
         // Generic flags/counters

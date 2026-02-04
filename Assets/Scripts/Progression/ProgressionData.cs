@@ -39,7 +39,14 @@ namespace Nebula
     public enum MonsterId
     {
         None = 0,
-        Monster1, Monster2, Monster3, Monster4, Monster5, Monster6, Monster7, Monster8
+        Solrix,      // Solar â€” lizard-like creature wreathed in starfire
+        Voidmaw,     // Void â€” shadowy maw that devours light
+        Biovine,     // Bio â€” living vine colony from jungle moons
+        Chronofly,   // Time â€” insectoid that flickers through moments
+        Flaredon,    // Solar â€” armored beast with corona plating
+        Abyssal,     // Void â€” deep-space predator, bioluminescent lure
+        Sporethorn,  // Bio â€” spore-launching thorned symbiote
+        Tempora      // Time â€” crystalline stag that warps local time
     }
 
     public enum VillainId
@@ -64,7 +71,7 @@ namespace Nebula
         P7_A,
         P8_A,
 
-        // Extra romances for the two “double-romance” planets:
+        // Extra romances for the two ï¿½double-romanceï¿½ planets:
         P3_B,   // Example: Planet3 has two romance options
         P7_B    // Example: Planet7 has two romance options
     }
@@ -90,7 +97,7 @@ namespace Nebula
     }
 
     /// <summary>
-    /// “Catalog” describing which planet a romance belongs to.
+    /// ï¿½Catalogï¿½ describing which planet a romance belongs to.
     /// You can keep this in code for now; later we can move it to a ScriptableObject.
     /// </summary>
     public static class RomanceCatalog
@@ -149,7 +156,24 @@ namespace Nebula
 
         // ROMANCE DATA
         public List<RomanceEntry> romances = new List<RomanceEntry>();
-        public RomanceCandidateId activeRomance = RomanceCandidateId.None; // optional “current” romance
+        public RomanceCandidateId activeRomance = RomanceCandidateId.None; // optional ï¿½currentï¿½ romance
+
+        // ROSTER & PARTY
+        public List<OwnedMonster> roster = new List<OwnedMonster>();
+        public List<int> partyIndices = new List<int>();
+
+        // INVENTORY
+        public List<InventorySlot> inventory = new List<InventorySlot>();
+
+        // BESTIARY
+        public List<MonsterId> monstersSeen = new List<MonsterId>();
+        public List<MonsterId> monstersCaught = new List<MonsterId>();
+
+        // TRAINERS
+        public List<string> trainersDefeated = new List<string>();
+
+        // PLAY TIME
+        public float playTimeSeconds = 0f;
 
         // Generic extensibility
         public List<StringFlag> flags = new List<StringFlag>();
@@ -157,5 +181,23 @@ namespace Nebula
 
         [Serializable] public struct StringFlag { public string key; public bool value; }
         [Serializable] public struct StringCounter { public string key; public int value; }
+
+        [Serializable]
+        public class OwnedMonster
+        {
+            public MonsterId monsterId;
+            public int level = 1;
+            public int xp;
+            public int currentHp;
+            public List<string> knownMoveNames = new List<string>();
+            public string nickname;
+        }
+
+        [Serializable]
+        public struct InventorySlot
+        {
+            public string itemId;
+            public int quantity;
+        }
     }
 }

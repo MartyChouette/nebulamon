@@ -22,6 +22,9 @@ namespace Nebula
         [SerializeField] private Selectable mainFirstSelected;     // e.g. Start button
         [SerializeField] private Selectable optionsFirstSelected;  // e.g. Master Volume slider or Back button
 
+        [Header("Save Slots (optional)")]
+        [SerializeField] private SaveSlotPickerUI slotPicker;
+
         [Header("Scene")]
         [SerializeField] private string startSceneName = "Game";
 
@@ -68,6 +71,16 @@ namespace Nebula
                 return;
             }
 
+            if (slotPicker != null)
+            {
+                slotPicker.Show(slot =>
+                {
+                    Progression.LoadSlot(slot);
+                    SceneManager.LoadScene(startSceneName);
+                }, allowEmpty: true);
+                return;
+            }
+
             SceneManager.LoadScene(startSceneName);
         }
 
@@ -105,7 +118,7 @@ namespace Nebula
         {
             if (selectable == null) return;
 
-            // Clear + set on next frame helps avoid “selection didn’t stick” issues.
+            // Clear + set on next frame helps avoid ï¿½selection didnï¿½t stickï¿½ issues.
             if (EventSystem.current != null)
             {
                 EventSystem.current.SetSelectedGameObject(null);

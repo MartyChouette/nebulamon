@@ -46,6 +46,9 @@ namespace Nebula
         // ✅ Proper singleton
         public static DialogueManager Instance { get; private set; }
 
+        /// <summary>Whether a dialogue is currently active.</summary>
+        public bool IsOpen => _isOpen;
+
         // ✅ Prevent “Interact (X) also Submit (X)” from instantly skipping/closing
         private float _ignoreSubmitUntilUnscaled = 0f;
         private int _openedFrame = -999;
@@ -171,6 +174,33 @@ namespace Nebula
                 // optional: allow cancel to close
                 // Close();
             }
+        }
+
+        /// <summary>
+        /// Show a single line of text without requiring a CSV conversation.
+        /// </summary>
+        public void ShowSingleLine(string text, string speaker = "")
+        {
+            if (ui == null || ui.root == null) return;
+
+            _lines = new List<DialogueLine>
+            {
+                new DialogueLine { speaker = speaker, text = text }
+            };
+            _index = 0;
+            _isOpen = true;
+            _activeSpeaker = null;
+
+            _openedFrame = Time.frameCount;
+            _ignoreSubmitUntilUnscaled = Time.unscaledTime + 0.12f;
+
+            ui.SetVisible(true);
+            ui.ClearChoices();
+
+            if (_typing != null) StopCoroutine(_typing);
+            _typing = null;
+
+            ShowLine(_lines[0]);
         }
 
         public void StartConversation(DialogueSpeaker speaker, string conversationId)
